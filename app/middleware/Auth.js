@@ -1,4 +1,4 @@
-module.exports = () => {
+module.exports = express => {
 
     const dotenv = require("dotenv");
     const jwt = require('jsonwebtoken');
@@ -25,10 +25,15 @@ module.exports = () => {
         })
     }
 
+    Auth.login = (req, res, next) => {
+
+        res.send(Auth.generateAccessToken(req.body.username))
+        return null;
+
+    }
+
     Auth.generateAccessToken = (username) => {
-        return jwt.sign(username, process.env.TOKEN_SECRET, {
-            expiresIn: '1800s'
-        });
+        return jwt.sign(username, process.env.TOKEN_SECRET);
     }
 
     return Auth;
